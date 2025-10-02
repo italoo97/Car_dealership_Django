@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
+from django.contrib.auth.decorators import login_required
 
 def cars_view(request):
 	cars = Car.objects.all().order_by('model')
@@ -16,6 +17,7 @@ def cars_view(request):
 				{'cars': cars} #Aqui é um dicionario para simbolizar o banco de dados
 				)
 
+@login_required
 def new_cars_view(request):
 	if request.method =='POST':
 		new_car_form = CarModelForm(request.POST, request.FILES)

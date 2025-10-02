@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ change_form.old_password.errors }}
+            <label>Senha Antiga: </label>
+            {{ change_form.old_password }}
+        </div>
+
+        <div class="form-group">
+            {{ change_form.new_password1.errors }}
+            <label>Nova Senha: </label>
+            {{ change_form.new_password1 }}
+        </div>
+
+        <div class="form-group">
+            {{ change_form.new_password2.errors }}
+            <label>Confirmação: </label>
+            {{ change_form.new_password2 }}
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Alterar Senha">
+        </div>
+    </form>
+
+{% endblock %}
