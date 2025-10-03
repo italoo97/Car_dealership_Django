@@ -1,14 +1,130 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+<style>
+    * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+    body {
+            background-color: #f5f5f5;
+        }
+        
+    .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+    .form-card {
+            background: #fff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+            width: 300px;
+        }
+        
+    .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+    .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+    .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            padding-right: 40px; /* Espaço para o ícone do olho */
+        }
+        
+    .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+    .toggle-eye {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 65%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            user-select: none;
+        }
+        
+    .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+    .btn:hover {
+            background-color: #45a049;
+        }
+        
+    .error {
+            color: #d9534f;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+</style>
 
-        <table>
-            {{ login_form.as_table }}
-        </table>
+<div class="form-container">
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
 
-        <input type="submit" value="Login">
-    </form>
+            <div class="form-group">
+                {{ login_form.username.errors }}
+                <label for="id_username">Usuário</label>
+                {{ login_form.username }}
+            </div>
 
+            <div class="form-group">
+                {{ login_form.password.errors }}
+                <label for="id_password">Senha</label>
+                {{ login_form.password }}
+                <span id="togglePassword" class="toggle-eye">👁️</span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="  Entrar" class="btn btn-success" style="width:100%;">
+            </div>
+            <div class="g-signin2" data-onsuccess="onSignIn">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="602350039259-cgl81lt9f27v8hpkqdlq6dmln3bcnhrl.apps.googleusercontent.com">
+<script>
+    const toggle = document.getElementById("togglePassword");
+    const passwordField = document.getElementById("id_password");
+
+    toggle.addEventListener("click", () => {
+        const isPassword = passwordField.type === "password";
+        passwordField.type = isPassword ? "text" : "password";
+        toggle.textContent = isPassword ? "🙈" : "👁️";
+    });
+
+</script>
 {% endblock %}

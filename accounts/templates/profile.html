@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Perfil de {{ user.username }}</h2>
+    
+    {% if user.is_authenticated and user.profile %}
+        <p>Nome: {{ user.profile.first_name }} {{ user.profile.surname }}</p>
+        <p>Telefone: {{ user.profile.phone }}</p>
+        <p>Email: {{ user.profile.email }}</p>
+        
+        {% if user.profile.picture %}
+            <img src="{{ user.profile.picture.url }}" alt="Foto de perfil">
+        {% endif %}
+    
+    {% endif %}
+
+{% endblock %}

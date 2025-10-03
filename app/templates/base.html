@@ -1,93 +1,256 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}Multimarcas{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #0096c7;
+      --primary-dark: #0077a3;
+      --primary-light: #32bbe8;
+      --secondary-color: #ff6b35;
+      --dark-color: #333;
+      --light-color: #f8f9fa;
+      --gray-color: #6c757d;
+      --success-color: #28a745;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-        font-family: 'Open Sans', sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
-        margin: 0;
-        padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      color: var(--dark-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     header {
-        background-color: #0096c7;
-        color: #fff;
-        text-align: center;
-    }
-
-    footer {
-        background-color: #ccc;
-        color: #333;
-        padding: 20px;
-        text-align: center;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: var(--box-shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     nav {
-        background-color: #0096c7;
-        color: #fff;
-        height: 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      height: 70px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-brand::before {
+      content: "🚗";
+      font-size: 1.8rem;
     }
 
     nav ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
-    }
-
-    nav ul li {
-        margin: 0 10px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        font-size: 16px;
-        padding: 15px;
-        transition: all 0.3s ease;
+      color: white;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 12px 18px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     nav ul li a:hover {
-        background-color: #32bbe8;
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
     }
 
-    nav ul li.active a {
-        background-color: #666;
+    nav ul li a::before {
+      font-size: 1.1rem;
     }
 
-    nav ul li.active a:hover {
-        background-color: #999;
+    nav ul li a[href*="cars_list"]::before { content: "🚙"; }
+    nav ul li a[href*="car_form"]::before { content: "➕"; }
+    nav ul li a[href*="login"]::before { content: "🔐"; }
+    nav ul li a[href*="register"]::before { content: "👤"; }
+    nav ul li a[href*="change"]::before { content: "🔑"; }
+    nav ul li a[href*="logout"]::before { content: "🚪"; }
+
+    .user-greeting {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      margin-right: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    .user-greeting::before {
+      content: "👋";
+      margin-right: 5px;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      width: 100%;
+    }
+
+    footer {
+      background: linear-gradient(135deg, #0096c7 0%, #0077a3 100%);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo::before {
+      content: "🚗";
+      font-size: 1.8rem;
+    }
+
+    .footer-text {
+      color: #bdc3c7;
+      font-size: 0.9rem;
+      max-width: 600px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 20px;
+        gap: 15px;
+      }
+
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      nav ul li a {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+
+      .user-greeting {
+        margin-right: 0;
+        margin-bottom: 10px;
+        order: -1;
+        width: 100%;
+        text-align: center;
+      }
+
+      main {
+        padding: 20px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      nav ul li {
+        width: 100%;
+      }
+
+      nav ul li a {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .nav-brand {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    main > * {
+      animation: fadeIn 0.5s ease-out;
+    }
   </style>
 </head>
 <body>
   <header>
     <nav>
-      <ul>
+      <a href="{% url 'cars_list' %}" class="nav-brand">Multimarcas</a>
+      
+      <ul>        
         {% if user.is_authenticated %}
-          <li>Olá, {{ user.username }}</li>
+          <li class="user-greeting">Olá, {{ user.username }}</li>
           <li><a href="{% url 'car_form' %}">Cadastrar Carro</a></li>
         {% endif %}
+
+        <li><a href="{% url 'cars_list' %}">Carros</a></li>
         
         {% if not user.is_authenticated %}
-          <li><a href="{% url 'login' %}">Login</a></li>
           <li><a href="{% url 'register' %}">Cadastre-se</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
         {% endif %}
-          
-        <li><a href="{% url 'cars_list' %}">Carros</a></li>
 
         {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Sair</a></li>
+          <li><a href="{% url 'profile' %}">Perfil</a></li>
+          <li><a href="{% url 'change' %}">Alterar Senha</a></li>
+          <li><a href="{% url 'logout' %}">Sair</a></li>
         {% endif %}
-
       </ul>
     </nav>
   </header>
@@ -98,7 +261,11 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 Cang4 Multimarcas</p>
+    <div class="footer-content">
+      <div class="footer-logo">Projeto Carros</div>
+      <p class="footer-text">Projeto desenvolvido em Django</p>
+      <p>&copy; 2025 Cang4.</p>
+    </div>
   </footer>
 </body>
 </html>

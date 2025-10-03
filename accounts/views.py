@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth import update_session_auth_hash, authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from accounts.forms import ProfileForm
 
 def register_view(request):
     if request.method == 'POST':
@@ -45,3 +46,18 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('cars_list')
+
+@login_required
+def profile_view(request):
+    return render(request, 'profile.html', {"user": request.user})
+
+@login_required
+def edit_profile_view(request):
+	if request.method =='POST':
+		profile_form = ProfileForm(request.POST, request.FILES)
+		if profile_form.is_valid():
+			profile_form.save()
+			return redirect('cars_list')
+	else:
+		profile_form = ProfileForm()
+	return render(request, 'editprofile.html', {'profile_form': profile_form})

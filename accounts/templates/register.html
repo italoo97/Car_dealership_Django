@@ -1,30 +1,135 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+<style>
+    /* Reset para garantir que padding e border sejam incluídos na largura */
+    * {
+        box-sizing: border-box;
+    }
+    
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        padding: 20px; /* Adiciona espaço nas bordas em telas menores */
+    }
+    
+    .form-card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        width: 350px;
+        max-width: 100%; /* Garante que não ultrapasse a tela em dispositivos móveis */
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px 40px 12px 12px; /* espaço para o ícone à direita */
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 16px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .form-group input:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+    
+    .toggle-eye {
+        cursor: pointer;
+        position: absolute;
+        right: 12px;
+        top: 38px; /* Posiciona abaixo do label */
+        font-size: 18px;
+        user-select: none;
+        background: white;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: background-color 0.3s;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    
+    .error {
+        color: #dc3545;
+        font-size: 14px;
+        margin-top: 5px;
+        display: block;
+    }
+</style>
 
-        <div class="form-group">
-            {{ user_form.username.errors }}
-            <label>Usuario: </label>
-            {{ user_form.username }}
-        </div>
+<div class="form-container">
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
 
-        <div class="form-group">
-            {{ user_form.password1.errors }}
-            <label>Senha: </label>
-            {{ user_form.password1 }}
-        </div>
+            <div class="form-group">
+                {{ user_form.username.errors }}
+                <label for="id_username">Usuário</label>
+                {{ user_form.username }}
+            </div>
 
-        <div class="form-group">
-            {{ user_form.password2.errors }}
-            <label>Confirmação: </label>
-            {{ user_form.password2 }}
-        </div>
+            <div class="form-group">
+                {{ user_form.password1.errors }}
+                <label for="id_password1">Senha</label>
+                {{ user_form.password1 }}
+                <span id="togglePassword1" class="toggle-eye">👁️</span>
+            </div>
 
-        <div class="form-group">
-            <input type="submit" value="Cadastrar">
-        </div>
-    </form>
+            <div class="form-group">
+                {{ user_form.password2.errors }}
+                <label for="id_password2">Confirmação</label>
+                {{ user_form.password2 }}
+            </div>
 
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary" style="width:100%;">
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function togglePassword(idField, idToggle) {
+        const field = document.getElementById(idField);
+        const toggle = document.getElementById(idToggle);
+
+        toggle.addEventListener("click", () => {
+            const isPassword = field.type === "password";
+            field.type = isPassword ? "text" : "password";
+            toggle.textContent = isPassword ? "🙈" : "👁️";
+        });
+    }
+
+    togglePassword("id_password1", "togglePassword1");
+</script>
 {% endblock %}
